@@ -98,6 +98,7 @@ class _DraggableResizableState extends State<DraggableResizable> {
     baseAngle = 0;
     angleDelta = 0;
   }
+  bool toolsShow = true;
 
   @override
   Widget build(BuildContext context) {
@@ -246,7 +247,11 @@ class _DraggableResizableState extends State<DraggableResizable> {
         final topCenter = _FloatingActionIcon(
           key: const Key('draggableResizable_layer_floatingActionIcon'),
           iconData: Icons.done,
-          onTap: widget.onLayerTapped,
+          onTap: () {
+            setState(() {
+              toolsShow=false;
+            });
+          },
         );
         // final topLeftCorner = _ResizePoint(
         //   key: const Key('draggableResizable_topLeft_resizePoint'),
@@ -367,39 +372,42 @@ class _DraggableResizableState extends State<DraggableResizable> {
                     setState(() => angle = a * 0.5);
                     onUpdate();
                   },
-                  child: Stack(
-                    children: [
-                      decoratedChild,
-                      if (widget.canTransform && isTouchInputSupported) ...[
-                        Positioned(
-                          top: _floatingActionPadding / 2,
-                          left: _floatingActionPadding / 2,
-                          child: topLeftCorner,
-                        ),
-                        Positioned(
-                          right: (normalizedWidth / 2) -
-                              (_floatingActionDiameter / 2) +
-                              (_cornerDiameter / 2) +
-                              (_floatingActionPadding / 2),
-                          child: topCenter,
-                        ),
-                        Positioned(
-                          bottom: _floatingActionPadding / 2,
-                          left: _floatingActionPadding / 2,
-                          child: deleteButton,
-                        ),
-                        Positioned(
-                          top: normalizedHeight + _floatingActionPadding / 2,
-                          left: normalizedWidth + _floatingActionPadding / 2,
-                          child: bottomRightCorner,
-                        ),
-                        Positioned(
-                          top: _floatingActionPadding / 2,
-                          right: _floatingActionPadding / 2,
-                          child: rotateAnchor,
-                        ),
+                  child: Visibility(
+
+                    child: Stack(
+                      children: [
+                        decoratedChild,
+                        if (widget.canTransform && isTouchInputSupported) ...[
+                          Positioned(
+                            top: _floatingActionPadding / 2,
+                            left: _floatingActionPadding / 2,
+                            child: topLeftCorner,
+                          ),
+                          Positioned(
+                            right: (normalizedWidth / 2) -
+                                (_floatingActionDiameter / 2) +
+                                (_cornerDiameter / 2) +
+                                (_floatingActionPadding / 2),
+                            child: topCenter,
+                          ),
+                          Positioned(
+                            bottom: _floatingActionPadding / 2,
+                            left: _floatingActionPadding / 2,
+                            child: deleteButton,
+                          ),
+                          Positioned(
+                            top: normalizedHeight + _floatingActionPadding / 2,
+                            left: normalizedWidth + _floatingActionPadding / 2,
+                            child: bottomRightCorner,
+                          ),
+                          Positioned(
+                            top: _floatingActionPadding / 2,
+                            right: _floatingActionPadding / 2,
+                            child: rotateAnchor,
+                          ),
+                        ],
                       ],
-                    ],
+                    ),
                   ),
                 ),
               ),
