@@ -99,7 +99,7 @@ class _DraggableResizableState extends State<DraggableResizable> {
     angleDelta = 0;
   }
 
-bool toolHide = false;
+bool toolHide = true;
   @override
   Widget build(BuildContext context) {
     final aspectRatio = widget.size.width / widget.size.height;
@@ -250,7 +250,7 @@ bool toolHide = false;
             key: const Key('draggableResizable_layer_floatingActionIcon'),
             iconData: Icons.done,
             onTap: () {
-              toolHide=true;
+              toolHide=false;
             },
           );
           // final topLeftCorner = _ResizePoint(
