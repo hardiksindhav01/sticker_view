@@ -466,7 +466,7 @@ class _ResizePoint extends StatelessWidget {
             child: iconData != null
                 ? Icon(
                     iconData,
-                    size: 12,
+                    size: 14,
                     color: Colors.blue,
                   )
                 : Container(),
@@ -580,7 +580,7 @@ class _FloatingActionIcon extends StatelessWidget {
             child: Icon(
               iconData,
               color: Colors.blue,
-              size: 12,
+              size: 14,
             ),
           ),
         ),

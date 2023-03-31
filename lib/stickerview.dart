@@ -77,6 +77,7 @@ class StickerViewState extends State<StickerView> {
                 key: stickGlobalKey,
                 child: Container(
                   decoration: BoxDecoration(
+                    color: Colors.white,
                     image: DecorationImage(image: NetworkImage(widget.url??'https://i.postimg.cc/wTvHKgmp/testimage.jpg'))
                   ),
                   height:
@@ -87,6 +88,19 @@ class StickerViewState extends State<StickerView> {
                       DraggableStickers(
                     stickerList: stickerList,
                   ),
+                ),
+              ),
+              SizedBox(height: 20,),
+              Container(
+                alignment: Alignment.center,
+                height: 30,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.undo,color: Colors.black54,size: 28,),
+                    SizedBox(width: 50,),
+                    Icon(Icons.undo,color: Colors.black54,size: 28,),
+                  ],
                 ),
               ),
             ],
