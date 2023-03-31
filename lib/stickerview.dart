@@ -76,7 +76,7 @@ class StickerViewState extends State<StickerView> {
                 key: stickGlobalKey,
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.grey[200],
+                    color: Colors.red,
                   ),
                   height:
                       widget.height ?? MediaQuery.of(context).size.height * 0.7,
