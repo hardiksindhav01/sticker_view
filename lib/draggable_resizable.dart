@@ -245,7 +245,7 @@ class _DraggableResizableState extends State<DraggableResizable> {
 
         final topCenter = _FloatingActionIcon(
           key: const Key('draggableResizable_layer_floatingActionIcon'),
-          iconData: Icons.layers,
+          iconData: Icons.done,
           onTap: widget.onLayerTapped,
         );
         // final topLeftCorner = _ResizePoint(
