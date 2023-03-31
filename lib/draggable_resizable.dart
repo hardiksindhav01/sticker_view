@@ -98,323 +98,324 @@ class _DraggableResizableState extends State<DraggableResizable> {
     baseAngle = 0;
     angleDelta = 0;
   }
-  bool toolsShow = true;
 
+bool toolHide = false;
   @override
   Widget build(BuildContext context) {
     final aspectRatio = widget.size.width / widget.size.height;
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        position = position == Offset.zero
-            ? Offset(
-                constraints.maxWidth / 2 - (size.width / 2),
-                constraints.maxHeight / 2 - (size.height / 2),
-              )
-            : position;
+    return Visibility(
+      visible: toolHide,
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          position = position == Offset.zero
+              ? Offset(
+                  constraints.maxWidth / 2 - (size.width / 2),
+                  constraints.maxHeight / 2 - (size.height / 2),
+                )
+              : position;
 
-        final normalizedWidth = size.width;
-        final normalizedHeight = normalizedWidth / aspectRatio;
-        final newSize = Size(normalizedWidth, normalizedHeight);
+          final normalizedWidth = size.width;
+          final normalizedHeight = normalizedWidth / aspectRatio;
+          final newSize = Size(normalizedWidth, normalizedHeight);
 
-        if (widget.constraints.isSatisfiedBy(newSize)) size = newSize;
+          if (widget.constraints.isSatisfiedBy(newSize)) size = newSize;
 
-        final normalizedLeft = position.dx;
-        final normalizedTop = position.dy;
+          final normalizedLeft = position.dx;
+          final normalizedTop = position.dy;
 
-        void onUpdate() {
-          final normalizedPosition = Offset(
-            normalizedLeft +
-                (_floatingActionPadding / 2) +
-                (_cornerDiameter / 2),
-            normalizedTop +
-                (_floatingActionPadding / 2) +
-                (_cornerDiameter / 2),
-          );
-          widget.onUpdate?.call(
-            DragUpdate(
-              position: normalizedPosition,
-              size: size,
-              constraints: Size(constraints.maxWidth, constraints.maxHeight),
-              angle: angle,
-            ),
-          );
-        }
+          void onUpdate() {
+            final normalizedPosition = Offset(
+              normalizedLeft +
+                  (_floatingActionPadding / 2) +
+                  (_cornerDiameter / 2),
+              normalizedTop +
+                  (_floatingActionPadding / 2) +
+                  (_cornerDiameter / 2),
+            );
+            widget.onUpdate?.call(
+              DragUpdate(
+                position: normalizedPosition,
+                size: size,
+                constraints: Size(constraints.maxWidth, constraints.maxHeight),
+                angle: angle,
+              ),
+            );
+          }
 
-        // void onDragTopLeft(Offset details) {
-        //   final mid = (details.dx + details.dy) / 2;
-        //   final newHeight = math.max((size.height - (2 * mid)), 0.0);
-        //   final newWidth = math.max(size.width - (2 * mid), 0.0);
-        //   final updatedSize = Size(newWidth, newHeight);
+          // void onDragTopLeft(Offset details) {
+          //   final mid = (details.dx + details.dy) / 2;
+          //   final newHeight = math.max((size.height - (2 * mid)), 0.0);
+          //   final newWidth = math.max(size.width - (2 * mid), 0.0);
+          //   final updatedSize = Size(newWidth, newHeight);
 
-        //   if (!widget.constraints.isSatisfiedBy(updatedSize)) return;
+          //   if (!widget.constraints.isSatisfiedBy(updatedSize)) return;
 
-        //   final updatedPosition = Offset(position.dx + mid, position.dy + mid);
+          //   final updatedPosition = Offset(position.dx + mid, position.dy + mid);
 
-        //   setState(() {
-        //     size = updatedSize;
-        //     position = updatedPosition;
-        //   });
+          //   setState(() {
+          //     size = updatedSize;
+          //     position = updatedPosition;
+          //   });
 
-        //   onUpdate();
-        // }
-
-        // ignore: unused_element
-        void onDragTopRight(Offset details) {
-          final mid = (details.dx + (details.dy * -1)) / 2;
-          final newHeight = math.max(size.height + (2 * mid), 0.0);
-          final newWidth = math.max(size.width + (2 * mid), 0.0);
-          final updatedSize = Size(newWidth, newHeight);
-
-          if (!widget.constraints.isSatisfiedBy(updatedSize)) return;
-
-          final updatedPosition = Offset(position.dx - mid, position.dy - mid);
-
-          setState(() {
-            size = updatedSize;
-            position = updatedPosition;
-          });
-
-          onUpdate();
-        }
-
-        // ignore: unused_element
-        void onDragBottomLeft(Offset details) {
-          final mid = ((details.dx * -1) + details.dy) / 2;
-
-          final newHeight = math.max(size.height + (2 * mid), 0.0);
-
-          final newWidth = math.max(size.width + (2 * mid), 0.0);
-
-          final updatedSize = Size(newWidth, newHeight);
-
-          // if (!widget.constraints.isSatisfiedBy(updatedSize)) return;
-
-          final updatedPosition = Offset(position.dx - mid, position.dy - mid);
-
-          // if (updatedSize > Size(100, 100)) {
-          setState(() {
-            size = updatedSize;
-            position = updatedPosition;
-          });
+          //   onUpdate();
           // }
 
-          onUpdate();
-        }
+          // ignore: unused_element
+          void onDragTopRight(Offset details) {
+            final mid = (details.dx + (details.dy * -1)) / 2;
+            final newHeight = math.max(size.height + (2 * mid), 0.0);
+            final newWidth = math.max(size.width + (2 * mid), 0.0);
+            final updatedSize = Size(newWidth, newHeight);
 
-        void onDragBottomRight(Offset details) {
-          final mid = (details.dx + details.dy) / 2;
-          final newHeight = math.max(size.height + (2 * mid), 0.0);
-          final newWidth = math.max(size.width + (2 * mid), 0.0);
-          final updatedSize = Size(newWidth, newHeight);
+            if (!widget.constraints.isSatisfiedBy(updatedSize)) return;
 
-          // if (!widget.constraints.isSatisfiedBy(updatedSize)) return;
+            final updatedPosition = Offset(position.dx - mid, position.dy - mid);
 
-          final updatedPosition = Offset(position.dx - mid, position.dy - mid);
-          // minimum size of the sticker should be Size(50,50)
-          if (updatedSize > const Size(10, 10)) {
             setState(() {
               size = updatedSize;
               position = updatedPosition;
             });
+
+            onUpdate();
           }
 
-          onUpdate();
-        }
+          // ignore: unused_element
+          void onDragBottomLeft(Offset details) {
+            final mid = ((details.dx * -1) + details.dy) / 2;
 
-        final decoratedChild = Container(
-          key: const Key('draggableResizable_child_container'),
-          alignment: Alignment.center,
-          height: normalizedHeight + _cornerDiameter + _floatingActionPadding,
-          width: normalizedWidth + _cornerDiameter + _floatingActionPadding,
-          child: Container(
-            height: normalizedHeight,
-            width: normalizedWidth,
-            decoration: BoxDecoration(
-              border: Border.all(
-                width: 2,
-                color: widget.canTransform ? Colors.blue : Colors.transparent,
-              ),
-            ),
-            child: Center(child: widget.child),
-          ),
-        );
-        final topLeftCorner = _FloatingActionIcon(
-          key: const Key('draggableResizable_edit_floatingActionIcon'),
-          iconData: Icons.edit,
-          onTap: widget.onEdit,
-        );
+            final newHeight = math.max(size.height + (2 * mid), 0.0);
 
-        final topCenter = _FloatingActionIcon(
-          key: const Key('draggableResizable_layer_floatingActionIcon'),
-          iconData: Icons.done,
-          onTap: () {
+            final newWidth = math.max(size.width + (2 * mid), 0.0);
+
+            final updatedSize = Size(newWidth, newHeight);
+
+            // if (!widget.constraints.isSatisfiedBy(updatedSize)) return;
+
+            final updatedPosition = Offset(position.dx - mid, position.dy - mid);
+
+            // if (updatedSize > Size(100, 100)) {
             setState(() {
-              toolsShow=false;
+              size = updatedSize;
+              position = updatedPosition;
             });
-          },
-        );
-        // final topLeftCorner = _ResizePoint(
-        //   key: const Key('draggableResizable_topLeft_resizePoint'),
-        //   type: _ResizePointType.topLeft,
-        //   onDrag: onDragTopLeft,
-        // );
+            // }
 
-        // final topRightCorner = _ResizePoint(
-        //   key: const Key('draggableResizable_topRight_resizePoint'),
-        //   type: _ResizePointType.topRight,
-        //   onDrag: onDragTopRight,
-        // );
-
-        // final bottomLeftCorner = _ResizePoint(
-        //   key: const Key('draggableResizable_bottomLeft_resizePoint'),
-        //   type: _ResizePointType.bottomLeft,
-        //   onDrag: onDragBottomLeft,
-        //   // iconData: Icons.zoom_out_map,
-        // );
-
-        final bottomRightCorner = _ResizePoint(
-          key: const Key('draggableResizable_bottomRight_resizePoint'),
-          type: _ResizePointType.bottomRight,
-          onDrag: onDragBottomRight,
-          iconData: Icons.zoom_out_map,
-        );
-
-        final deleteButton = _FloatingActionIcon(
-          key: const Key('draggableResizable_delete_floatingActionIcon'),
-          iconData: Icons.delete,
-          onTap: widget.onDelete,
-        );
-
-        final center = Offset(
-          -((normalizedHeight / 2) +
-              (_floatingActionDiameter / 2) +
-              (_cornerDiameter / 2) +
-              (_floatingActionPadding / 2)),
-          // (_floatingActionDiameter + _cornerDiameter) / 2,
-          (normalizedHeight / 2) +
-              (_floatingActionDiameter / 2) +
-              (_cornerDiameter / 2) +
-              (_floatingActionPadding / 2),
-        );
-
-        final rotateAnchor = GestureDetector(
-          key: const Key('draggableResizable_rotate_gestureDetector'),
-          onScaleStart: (details) {
-            final offsetFromCenter = details.localFocalPoint - center;
-            setState(() => angleDelta = baseAngle -
-                offsetFromCenter.direction -
-                _floatingActionDiameter);
-          },
-          onScaleUpdate: (details) {
-            final offsetFromCenter = details.localFocalPoint - center;
-
-            setState(
-              () {
-                angle = offsetFromCenter.direction + angleDelta * 0.5;
-              },
-            );
             onUpdate();
-          },
-          onScaleEnd: (_) => setState(() => baseAngle = angle),
-          child: _FloatingActionIcon(
-            key: const Key('draggableResizable_rotate_floatingActionIcon'),
-            iconData: Icons.rotate_90_degrees_ccw,
-            onTap: () {},
-          ),
-        );
+          }
 
-        if (this.constraints != constraints) {
-          this.constraints = constraints;
-          onUpdate();
-        }
+          void onDragBottomRight(Offset details) {
+            final mid = (details.dx + details.dy) / 2;
+            final newHeight = math.max(size.height + (2 * mid), 0.0);
+            final newWidth = math.max(size.width + (2 * mid), 0.0);
+            final updatedSize = Size(newWidth, newHeight);
 
-        return Stack(
-          children: <Widget>[
-            Positioned(
-              top: normalizedTop,
-              left: normalizedLeft,
-              child: Transform(
-                alignment: Alignment.center,
-                transform: Matrix4.identity()
-                  ..scale(1.0)
-                  ..rotateZ(angle),
-                child: _DraggablePoint(
-                  key: const Key('draggableResizable_child_draggablePoint'),
-                  onTap: onUpdate,
-                  onDrag: (d) {
-                    setState(() {
-                      position = Offset(position.dx + d.dx, position.dy + d.dy);
-                    });
-                    onUpdate();
-                  },
-                  onScale: (s) {
-                    final updatedSize = Size(
-                      widget.size.width * s,
-                      widget.size.height * s,
-                    );
+            // if (!widget.constraints.isSatisfiedBy(updatedSize)) return;
 
-                    if (!widget.constraints.isSatisfiedBy(updatedSize)) return;
+            final updatedPosition = Offset(position.dx - mid, position.dy - mid);
+            // minimum size of the sticker should be Size(50,50)
+            if (updatedSize > const Size(10, 10)) {
+              setState(() {
+                size = updatedSize;
+                position = updatedPosition;
+              });
+            }
 
-                    final midX = position.dx + (size.width / 2);
-                    final midY = position.dy + (size.height / 2);
-                    final updatedPosition = Offset(
-                      midX - (updatedSize.width / 2),
-                      midY - (updatedSize.height / 2),
-                    );
+            onUpdate();
+          }
 
-                    setState(() {
-                      size = updatedSize;
-                      position = updatedPosition;
-                    });
-                    onUpdate();
-                  },
-                  onRotate: (a) {
-                    setState(() => angle = a * 0.5);
-                    onUpdate();
-                  },
-                  child: Visibility(
+          final decoratedChild = Container(
+            key: const Key('draggableResizable_child_container'),
+            alignment: Alignment.center,
+            height: normalizedHeight + _cornerDiameter + _floatingActionPadding,
+            width: normalizedWidth + _cornerDiameter + _floatingActionPadding,
+            child: Container(
+              height: normalizedHeight,
+              width: normalizedWidth,
+              decoration: BoxDecoration(
+                border: Border.all(
+                  width: 2,
+                  color: widget.canTransform ? Colors.blue : Colors.transparent,
+                ),
+              ),
+              child: Center(child: widget.child),
+            ),
+          );
+          final topLeftCorner = _FloatingActionIcon(
+            key: const Key('draggableResizable_edit_floatingActionIcon'),
+            iconData: Icons.edit,
+            onTap: widget.onEdit,
+          );
 
-                    child: Stack(
-                      children: [
-                        decoratedChild,
-                        if (widget.canTransform && isTouchInputSupported) ...[
-                          Positioned(
-                            top: _floatingActionPadding / 2,
-                            left: _floatingActionPadding / 2,
-                            child: topLeftCorner,
-                          ),
-                          Positioned(
-                            right: (normalizedWidth / 2) -
-                                (_floatingActionDiameter / 2) +
-                                (_cornerDiameter / 2) +
-                                (_floatingActionPadding / 2),
-                            child: topCenter,
-                          ),
-                          Positioned(
-                            bottom: _floatingActionPadding / 2,
-                            left: _floatingActionPadding / 2,
-                            child: deleteButton,
-                          ),
-                          Positioned(
-                            top: normalizedHeight + _floatingActionPadding / 2,
-                            left: normalizedWidth + _floatingActionPadding / 2,
-                            child: bottomRightCorner,
-                          ),
-                          Positioned(
-                            top: _floatingActionPadding / 2,
-                            right: _floatingActionPadding / 2,
-                            child: rotateAnchor,
-                          ),
+          final topCenter = _FloatingActionIcon(
+            key: const Key('draggableResizable_layer_floatingActionIcon'),
+            iconData: Icons.done,
+            onTap: () {
+              toolHide=true;
+            },
+          );
+          // final topLeftCorner = _ResizePoint(
+          //   key: const Key('draggableResizable_topLeft_resizePoint'),
+          //   type: _ResizePointType.topLeft,
+          //   onDrag: onDragTopLeft,
+          // );
+
+          // final topRightCorner = _ResizePoint(
+          //   key: const Key('draggableResizable_topRight_resizePoint'),
+          //   type: _ResizePointType.topRight,
+          //   onDrag: onDragTopRight,
+          // );
+
+          // final bottomLeftCorner = _ResizePoint(
+          //   key: const Key('draggableResizable_bottomLeft_resizePoint'),
+          //   type: _ResizePointType.bottomLeft,
+          //   onDrag: onDragBottomLeft,
+          //   // iconData: Icons.zoom_out_map,
+          // );
+
+          final bottomRightCorner = _ResizePoint(
+            key: const Key('draggableResizable_bottomRight_resizePoint'),
+            type: _ResizePointType.bottomRight,
+            onDrag: onDragBottomRight,
+            iconData: Icons.zoom_out_map,
+          );
+
+          final deleteButton = _FloatingActionIcon(
+            key: const Key('draggableResizable_delete_floatingActionIcon'),
+            iconData: Icons.delete,
+            onTap: widget.onDelete,
+          );
+
+          final center = Offset(
+            -((normalizedHeight / 2) +
+                (_floatingActionDiameter / 2) +
+                (_cornerDiameter / 2) +
+                (_floatingActionPadding / 2)),
+            // (_floatingActionDiameter + _cornerDiameter) / 2,
+            (normalizedHeight / 2) +
+                (_floatingActionDiameter / 2) +
+                (_cornerDiameter / 2) +
+                (_floatingActionPadding / 2),
+          );
+
+          final rotateAnchor = GestureDetector(
+            key: const Key('draggableResizable_rotate_gestureDetector'),
+            onScaleStart: (details) {
+              final offsetFromCenter = details.localFocalPoint - center;
+              setState(() => angleDelta = baseAngle -
+                  offsetFromCenter.direction -
+                  _floatingActionDiameter);
+            },
+            onScaleUpdate: (details) {
+              final offsetFromCenter = details.localFocalPoint - center;
+
+              setState(
+                () {
+                  angle = offsetFromCenter.direction + angleDelta * 0.5;
+                },
+              );
+              onUpdate();
+            },
+            onScaleEnd: (_) => setState(() => baseAngle = angle),
+            child: _FloatingActionIcon(
+              key: const Key('draggableResizable_rotate_floatingActionIcon'),
+              iconData: Icons.rotate_90_degrees_ccw,
+              onTap: () {},
+            ),
+          );
+
+          if (this.constraints != constraints) {
+            this.constraints = constraints;
+            onUpdate();
+          }
+
+          return Stack(
+            children: <Widget>[
+              Positioned(
+                top: normalizedTop,
+                left: normalizedLeft,
+                child: Transform(
+                  alignment: Alignment.center,
+                  transform: Matrix4.identity()
+                    ..scale(1.0)
+                    ..rotateZ(angle),
+                  child: _DraggablePoint(
+                    key: const Key('draggableResizable_child_draggablePoint'),
+                    onTap: onUpdate,
+                    onDrag: (d) {
+                      setState(() {
+                        position = Offset(position.dx + d.dx, position.dy + d.dy);
+                      });
+                      onUpdate();
+                    },
+                    onScale: (s) {
+                      final updatedSize = Size(
+                        widget.size.width * s,
+                        widget.size.height * s,
+                      );
+
+                      if (!widget.constraints.isSatisfiedBy(updatedSize)) return;
+
+                      final midX = position.dx + (size.width / 2);
+                      final midY = position.dy + (size.height / 2);
+                      final updatedPosition = Offset(
+                        midX - (updatedSize.width / 2),
+                        midY - (updatedSize.height / 2),
+                      );
+
+                      setState(() {
+                        size = updatedSize;
+                        position = updatedPosition;
+                      });
+                      onUpdate();
+                    },
+                    onRotate: (a) {
+                      setState(() => angle = a * 0.5);
+                      onUpdate();
+                    },
+                    child: Visibility(
+
+                      child: Stack(
+                        children: [
+                          decoratedChild,
+                          if (widget.canTransform && isTouchInputSupported) ...[
+                            Positioned(
+                              top: _floatingActionPadding / 2,
+                              left: _floatingActionPadding / 2,
+                              child: topLeftCorner,
+                            ),
+                            Positioned(
+                              right: (normalizedWidth / 2) -
+                                  (_floatingActionDiameter / 2) +
+                                  (_cornerDiameter / 2) +
+                                  (_floatingActionPadding / 2),
+                              child: topCenter,
+                            ),
+                            Positioned(
+                              bottom: _floatingActionPadding / 2,
+                              left: _floatingActionPadding / 2,
+                              child: deleteButton,
+                            ),
+                            Positioned(
+                              top: normalizedHeight + _floatingActionPadding / 2,
+                              left: normalizedWidth + _floatingActionPadding / 2,
+                              child: bottomRightCorner,
+                            ),
+                            Positioned(
+                              top: _floatingActionPadding / 2,
+                              right: _floatingActionPadding / 2,
+                              child: rotateAnchor,
+                            ),
+                          ],
                         ],
-                      ],
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ],
-        );
-      },
+            ],
+          );
+        },
+      ),
     );
   }
 }
