@@ -77,30 +77,16 @@ class StickerViewState extends State<StickerView> {
                 key: stickGlobalKey,
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.white,
                     image: DecorationImage(image: NetworkImage(widget.url??'https://i.postimg.cc/wTvHKgmp/testimage.jpg'))
                   ),
                   height:
-                      widget.height ?? MediaQuery.of(context).size.height ,
+                      widget.height ?? MediaQuery.of(context).size.height * 0.7,
                   width: widget.width ?? MediaQuery.of(context).size.width,
                   child:
                       //DraggableStickers class in which stickerList is passed
                       DraggableStickers(
                     stickerList: stickerList,
                   ),
-                ),
-              ),
-              SizedBox(height: 20,),
-              Container(
-                alignment: Alignment.center,
-                height: 30,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.undo_rounded,color: Colors.black54,size: 28,),
-                    SizedBox(width: 50,),
-                    Icon(Icons.redo_rounded,color: Colors.black54,size: 28,),
-                  ],
                 ),
               ),
             ],
