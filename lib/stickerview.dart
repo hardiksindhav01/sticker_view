@@ -81,7 +81,7 @@ class StickerViewState extends State<StickerView> {
                     image: DecorationImage(image: NetworkImage(widget.url??'https://i.postimg.cc/wTvHKgmp/testimage.jpg'))
                   ),
                   height:
-                      widget.height ?? MediaQuery.of(context).size.height * 0.7,
+                      widget.height ?? MediaQuery.of(context).size.height * 0.9,
                   width: widget.width ?? MediaQuery.of(context).size.width,
                   child:
                       //DraggableStickers class in which stickerList is passed
@@ -97,9 +97,9 @@ class StickerViewState extends State<StickerView> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.undo,color: Colors.black54,size: 28,),
+                    Icon(Icons.undo_rounded,color: Colors.black54,size: 28,),
                     SizedBox(width: 50,),
-                    Icon(Icons.undo,color: Colors.black54,size: 28,),
+                    Icon(Icons.redo_rounded,color: Colors.black54,size: 28,),
                   ],
                 ),
               ),
