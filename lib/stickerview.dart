@@ -81,7 +81,7 @@ class StickerViewState extends State<StickerView> {
                     image: DecorationImage(image: NetworkImage(widget.url??'https://i.postimg.cc/wTvHKgmp/testimage.jpg'))
                   ),
                   height:
-                      widget.height ?? MediaQuery.of(context).size.height * 0.9,
+                      widget.height ?? MediaQuery.of(context).size.height ,
                   width: widget.width ?? MediaQuery.of(context).size.width,
                   child:
                       //DraggableStickers class in which stickerList is passed
