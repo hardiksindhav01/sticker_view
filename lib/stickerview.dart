@@ -15,9 +15,10 @@ class StickerView extends StatefulWidget {
   final List<Sticker>? stickerList;
   final double? height; // height of the editor view
   final double? width; // width of the editor view
+  final String? url;
 
   // ignore: use_key_in_widget_constructors
-  const StickerView({this.stickerList, this.height, this.width});
+  const StickerView({this.stickerList, this.height, this.width, this.url});
 
   // Method for saving image of the editor view as Uint8List
   // You have to pass the imageQuality as per your requirement (ImageQuality.low, ImageQuality.medium or ImageQuality.high)
@@ -76,7 +77,7 @@ class StickerViewState extends State<StickerView> {
                 key: stickGlobalKey,
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.red,
+                    image: DecorationImage(image: NetworkImage(widget.url??'https://i.postimg.cc/wTvHKgmp/testimage.jpg'))
                   ),
                   height:
                       widget.height ?? MediaQuery.of(context).size.height * 0.7,
