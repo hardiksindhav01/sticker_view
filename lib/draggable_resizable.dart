@@ -210,7 +210,7 @@ class _DraggableResizableState extends State<DraggableResizable> {
 
           final updatedPosition = Offset(position.dx - mid, position.dy - mid);
           // minimum size of the sticker should be Size(50,50)
-          if (updatedSize > const Size(50, 50)) {
+          if (updatedSize > const Size(10, 10)) {
             setState(() {
               size = updatedSize;
               position = updatedPosition;
