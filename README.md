@@ -13,7 +13,8 @@ A Flutter plugin to rotate, resize, move, delete any text, image or any other wi
 ✅ &nbsp; Resize</br>
 ✅ &nbsp; Move</br>
 ✅ &nbsp; Layer Update (Change Stack position)</br>
-✅ &nbsp; Delete 
+✅ &nbsp; Delete </br>
+✅ &nbsp; New Update  
 <br>
 <br>
 
