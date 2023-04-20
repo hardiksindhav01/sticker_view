@@ -85,7 +85,7 @@ class StickerViewState extends State<StickerView> {
                   ),
                 ),
               ),
-              widget.url == null ? Image.network(widget.url??'') : Image.file(File(widget.path??'')),
+              widget.url != null ? Image.network(widget.url??'') : Image.file(File(widget.path??'')),
             ],
           )
         : const CircularProgressIndicator();
