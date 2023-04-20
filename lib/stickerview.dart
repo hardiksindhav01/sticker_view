@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -16,9 +17,11 @@ class StickerView extends StatefulWidget {
   final double? height; // height of the editor view
   final double? width; // width of the editor view
   final String? url;
+  final String? path;
 
   // ignore: use_key_in_widget_constructors
-  const StickerView({this.stickerList, this.height, this.width, this.url});
+  const StickerView(
+      {this.stickerList, this.height, this.width, this.url, this.path});
 
   // Method for saving image of the editor view as Uint8List
   // You have to pass the imageQuality as per your requirement (ImageQuality.low, ImageQuality.medium or ImageQuality.high)
@@ -70,25 +73,19 @@ class StickerViewState extends State<StickerView> {
   @override
   Widget build(BuildContext context) {
     return stickerList != null
-        ? Column(
+        ? Stack(
             children: [
-              //For capturing screenshot of the widget
               RepaintBoundary(
                 key: stickGlobalKey,
-                child: Container(
-                  decoration: BoxDecoration(
-                    image: DecorationImage(image: NetworkImage(widget.url??'https://i.postimg.cc/wTvHKgmp/testimage.jpg'))
-                  ),
-                  height:
-                      widget.height ?? MediaQuery.of(context).size.height * 0.7,
-                  width: widget.width ?? MediaQuery.of(context).size.width,
-                  child:
-                      //DraggableStickers class in which stickerList is passed
-                      DraggableStickers(
+                child: SizedBox(
+                  height: widget.height,
+                  width: widget.width,
+                  child: DraggableStickers(
                     stickerList: stickerList,
                   ),
                 ),
               ),
+              widget.url == null ? Image.network(widget.url!) : Image.file(File(widget.path!)),
             ],
           )
         : const CircularProgressIndicator();
