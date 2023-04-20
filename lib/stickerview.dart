@@ -75,6 +75,9 @@ class StickerViewState extends State<StickerView> {
     return stickerList != null
         ? Stack(
             children: [
+              widget.url != ''
+                  ? Image.network(widget.url ?? '', fit: BoxFit.cover)
+                  : Image.file(File(widget.path ?? ''), fit: BoxFit.cover),
               RepaintBoundary(
                 key: stickGlobalKey,
                 child: SizedBox(
@@ -85,7 +88,6 @@ class StickerViewState extends State<StickerView> {
                   ),
                 ),
               ),
-              widget.url != '' ? Image.network(widget.url??'',fit: BoxFit.cover) : Image.file(File(widget.path??''),fit: BoxFit.cover),
             ],
           )
         : const CircularProgressIndicator();
